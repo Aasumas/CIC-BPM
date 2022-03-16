@@ -14,7 +14,7 @@ is_retina = False
 def r(num, rand):
     return num + rand * random.random()
 
-def imagesearch_count(image, precision=0.9):
+def imagesearch_count(image, precision=0.8):
     img_rgb = pyautogui.screenshot()
     filename = "Result-"  + image 
     if is_retina:
@@ -34,7 +34,7 @@ def imagesearch_count(image, precision=0.9):
         cv2.imwrite(filename , img_rgb) # Uncomment to write output image with boxes drawn around occurrences
     return count
 
-def imagesearch(image, precision=0.8):
+def imagesearch(image, precision=0.9):
     with mss.mss() as sct:
         im = sct.grab(sct.monitors[0])
         if is_retina:
@@ -133,7 +133,7 @@ for x in EVUL2:
     pyautogui.click()
     MergeBPS()
 
-EVUL3 = imagesearch_count("E2U51.png") # Evolution 2, Upgrade 51 BP to Merge,Upgrade
+EVUL3 = imagesearch_count("E2U51-N.png") # Evolution 2, Upgrade 51 BP to Merge,Upgrade
 EVUL3.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL3:
     pyautogui.moveTo(x)
