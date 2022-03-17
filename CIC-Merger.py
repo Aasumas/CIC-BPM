@@ -12,8 +12,8 @@ import os
 import mss
 
 is_retina = False
-MouseSpeed = 1
-SleepDelay = 5
+MouseSpeed = 0.2
+SleepDelay = 2
 
 def SleepDelayF():
     print("Sleep:", SleepDelay, "Seconds")
@@ -97,7 +97,7 @@ def MergeBPS():
     if pos1[0] != -1:
         print("Merge Button", pos1[0], pos1[1])
         posy = pos1[1] - 100
-        pyautogui.moveTo(pos1[0], posy) #Activate the window
+        pyautogui.moveTo(pos1[0], posy, MouseSpeed) #Activate the window
         pyautogui.click()  # click the mouse
         click_image("Merge.png", pos1, "left", MouseSpeed)
         SleepDelayF()
@@ -107,14 +107,15 @@ def MergeBPS():
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
         SleepDelayF()
-    else:     
+    else:
+        SleepDelayF()
         time.sleep(1)
         print("Selecting BluePrints", pos1[0], pos1[1])
         pyautogui.moveTo(1004, 491, MouseSpeed) # change this to the pixel area the blueprints are for blueprint B
-        SleepDelayF()
         pyautogui.click()  # click the mouse
         print("Merging BluePrints")
         pos2 = imagesearch("MergeBluePrints.png")
+        SleepDelayF()
         if pos2[0] != -1:
             click_image("MergeBluePrints.png", pos2, "left", 0.1)       
             SleepDelayF()
