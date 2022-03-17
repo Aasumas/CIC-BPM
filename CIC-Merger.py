@@ -127,7 +127,7 @@ def MergeBPS():
 EVUL = imagesearch_count("E1U01.png") # Evolution 1, Upgrade 1 = Fresh BP
 EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL:
-    pyautogui.moveTo(x, MouseSpeed)
+    pyautogui.moveTo(x)
     SleepDelayF()
     pyautogui.click()
     UpgradeBPS()
@@ -135,7 +135,7 @@ for x in EVUL:
 EVUL2 = imagesearch_count("E1U51.png") # Evolution 1, Upgrade 51 BP to Merge,Upgrade
 EVUL2.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL2:
-    pyautogui.moveTo(x, MouseSpeed)
+    pyautogui.moveTo(x)
     SleepDelayF()
     pyautogui.click()
     MergeBPS()
@@ -143,7 +143,7 @@ for x in EVUL2:
 EVUL3 = imagesearch_count("E2U51-N.png") # Evolution 2, Upgrade 51 BP to Merge,Upgrade
 EVUL3.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL3:
-    pyautogui.moveTo(x, MouseSpeed)
+    pyautogui.moveTo(x)
     SleepDelayF()
     pyautogui.click()
     MergeBPS()
@@ -151,7 +151,7 @@ for x in EVUL3:
 EVUL4 = imagesearch_count("E3U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
 EVUL4.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL4:
-    pyautogui.moveTo(x, MouseSpeed)
+    pyautogui.moveTo(x)
     SleepDelayF()
     pyautogui.click()
     MergeBPS()
@@ -159,7 +159,7 @@ for x in EVUL4:
 EVUL5 = imagesearch_count("E4U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
 EVUL5.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL5:
-    pyautogui.moveTo(x, MouseSpeed)
+    pyautogui.moveTo(x)
     SleepDelayF()
     pyautogui.click()
     MergeBPS()
