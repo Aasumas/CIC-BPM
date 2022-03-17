@@ -10,11 +10,19 @@ import platform
 import subprocess
 import os
 import mss
+
 is_retina = False
+MouseSpeed = 1
+SleepDelay = 5
+
+def SleepDelayF():
+    print("Sleep:", SleepDelay, "Seconds")
+    time.sleep(SleepDelay)
+
 def r(num, rand):
     return num + rand * random.random()
 
-def imagesearch_count(image, precision=0.8):
+def imagesearch_count(image, precision=0.9):
     img_rgb = pyautogui.screenshot()
     filename = "Result-"  + image 
     if is_retina:
@@ -53,13 +61,12 @@ def imagesearch(image, precision=0.9):
             return [-1, -1]
         return max_loc
     
-def click_image(image, pos, action, timestamp, offset=5):
+def click_image(image, pos, action, Timestamp, offset=5):
     img = cv2.imread(image)
     if img is None:
         raise FileNotFoundError('Image file not found: {}'.format(image))
     height, width, channels = img.shape
-    pyautogui.moveTo(pos[0] + r(width / 2, offset), pos[1] + r(height / 2, offset),
-                     timestamp)
+    pyautogui.moveTo(pos[0] + r(width / 2, offset), pos[1] + r(height / 2, offset), Timestamp)
     pyautogui.click(button=action)
 
 def UpgradeBPS():
@@ -67,18 +74,18 @@ def UpgradeBPS():
     if pos1[0] != -1:
         print("Upgrade Found", pos1[0], pos1[1])
         posy = pos1[1] - 100
-        pyautogui.moveTo(pos1[0], posy) #Activate the window
+        pyautogui.moveTo(pos1[0], posy, MouseSpeed) #Activate the window
         pyautogui.click()  # click the mouse
         pyautogui.keyDown('ctrl')  # hold down the control key
-        click_image("Upgrade.png", pos1, "left", 0.1) #change this to add more clicks if you don't want to do flat 51. Each Click is +50        
+        click_image("Upgrade.png", pos1, "left", MouseSpeed) #change this to add more clicks if you don't want to do flat 51. Each Click is +50        
         print("Clicking Upgrade ", pos1[0], pos1[1])
         pyautogui.keyUp('ctrl') #release control key
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
-        time.sleep(1)
+        SleepDelayF()
     else:
         print("Upgrade: Not Found")
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
-        time.sleep(1)
+        SleepDelayF()
 
 def MergeBPS():
 ##    Lock = imagesearch("Lock.png")
@@ -92,25 +99,25 @@ def MergeBPS():
         posy = pos1[1] - 100
         pyautogui.moveTo(pos1[0], posy) #Activate the window
         pyautogui.click()  # click the mouse
-        click_image("Merge.png", pos1, "left", 0.1)
-        time.sleep(2)
+        click_image("Merge.png", pos1, "left", MouseSpeed)
+        SleepDelayF()
     NoBPS = imagesearch("NoBluePrints.png")
     if NoBPS[0] != -1:
         print("No BluePrints to Merge, Exiting")
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
-        time.sleep(1)
+        SleepDelayF()
     else:     
         time.sleep(1)
         print("Selecting BluePrints", pos1[0], pos1[1])
-        pyautogui.moveTo(1004, 491) # change this to the pixel area the blueprints are for blueprint B
-        time.sleep(1)
+        pyautogui.moveTo(1004, 491, MouseSpeed) # change this to the pixel area the blueprints are for blueprint B
+        SleepDelayF()
         pyautogui.click()  # click the mouse
         print("Merging BluePrints")
         pos2 = imagesearch("MergeBluePrints.png")
         if pos2[0] != -1:
             click_image("MergeBluePrints.png", pos2, "left", 0.1)       
-            time.sleep(5)
+            SleepDelayF()
             UpgradeBPS()
             print("Upgrading New BluePrint")
 
@@ -120,39 +127,39 @@ def MergeBPS():
 EVUL = imagesearch_count("E1U01.png") # Evolution 1, Upgrade 1 = Fresh BP
 EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL:
-    pyautogui.moveTo(x)
-    time.sleep(1)
+    pyautogui.moveTo(x, MouseSpeed)
+    SleepDelayF()
     pyautogui.click()
     UpgradeBPS()
 
 EVUL2 = imagesearch_count("E1U51.png") # Evolution 1, Upgrade 51 BP to Merge,Upgrade
 EVUL2.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL2:
-    pyautogui.moveTo(x)
-    time.sleep(1)
+    pyautogui.moveTo(x, MouseSpeed)
+    SleepDelayF()
     pyautogui.click()
     MergeBPS()
 
 EVUL3 = imagesearch_count("E2U51-N.png") # Evolution 2, Upgrade 51 BP to Merge,Upgrade
 EVUL3.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL3:
-    pyautogui.moveTo(x)
-    time.sleep(1)
+    pyautogui.moveTo(x, MouseSpeed)
+    SleepDelayF()
     pyautogui.click()
     MergeBPS()
 
 EVUL4 = imagesearch_count("E3U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
 EVUL4.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL4:
-    pyautogui.moveTo(x)
-    time.sleep(1)
+    pyautogui.moveTo(x, MouseSpeed)
+    SleepDelayF()
     pyautogui.click()
     MergeBPS()
 
 EVUL5 = imagesearch_count("E4U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
 EVUL5.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
 for x in EVUL5:
-    pyautogui.moveTo(x)
-    time.sleep(1)
+    pyautogui.moveTo(x, MouseSpeed)
+    SleepDelayF()
     pyautogui.click()
     MergeBPS()
