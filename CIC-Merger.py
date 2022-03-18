@@ -144,32 +144,32 @@ def Main(image, BPMCMD):
 # Evolution 1, Upgrade 1 = Fresh BP
 i = 1
 while i < LoopTimes:
-Main(E1U01.png,Upgrade)
-  i += 1
+    Main(E1U01.png,Upgrade)
+    i += 1
 
 # Evolution 1, Upgrade 51 BP to Merge,Upgrade
 i = 1
 while i < LoopTimes:
-Main(E1U51.png,Merge)
-  i += 1
+    Main(E1U51.png,Merge)
+    i += 1
 
 # Evolution 2, Upgrade 51 BP to Merge,Upgrade
 i = 1
 while i < LoopTimes:
-Main(E2U51.png,Merge)
-  i += 1
+    Main(E2U51.png,Merge)
+    i += 1
 
 # Evolution 3, Upgrade 51 BP to Merge,Upgrade
 i = 1
 while i < LoopTimes:
-Main(E3U51.png,Merge)
-  i += 1
+    Main(E3U51.png,Merge)
+    i += 1
 
 # Evolution 4, Upgrade 51 BP to Merge,Upgrade
 i = 1
 while i < LoopTimes:
-Main(E4U51.png,Merge)
-  i += 1
+    Main(E4U51.png,Merge)
+    i += 1
 
 #Old code, made a map of places to click, locations would change based on merges so unrealiable
 #EVUL = imagesearch_count("E1U01.png") # Evolution 1, Upgrade 1 = Fresh BP
