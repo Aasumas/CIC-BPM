@@ -14,6 +14,7 @@ import mss
 is_retina = False
 MouseSpeed = 0.2
 SleepDelay = 2
+LoopTimes = 20
 
 def SleepDelayF():
     print("Sleep:", SleepDelay, "Seconds")
@@ -122,45 +123,91 @@ def MergeBPS():
             UpgradeBPS()
             print("Upgrading New BluePrint")
 
+def Main(image, BPMCMD):
+    pos = imagesearch("image")
+        if pos[0] != -1:
+            print(image, "Found at:", pos[0], pos[1])
+            print("Moving Mouse to", pos[0], pos[1])
+            pyautogui.moveTo(pos[0], pos[1], MouseSpeed)
+            time.sleep(SleepDelay)
+            print("Left Click Mouse at", pos[0], pos[1])
+            click_image("image", pos, "left", MouseSpeed, offset=5)
+            if BPMCMD == Upgrade:
+                UpgradeBPS
+            elif BPMCMD == Merge:
+                MergeBPS
 
 #Main Program begins Below this line!
 
-EVUL = imagesearch_count("E1U01.png") # Evolution 1, Upgrade 1 = Fresh BP
-EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-for x in EVUL:
-    pyautogui.moveTo(x)
-    SleepDelayF()
-    pyautogui.click()
-    UpgradeBPS()
 
-EVUL2 = imagesearch_count("E1U51.png") # Evolution 1, Upgrade 51 BP to Merge,Upgrade
-EVUL2.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-for x in EVUL2:
-    pyautogui.moveTo(x)
-    SleepDelayF()
-    pyautogui.click()
-    MergeBPS()
 
-EVUL3 = imagesearch_count("E2U51-N.png") # Evolution 2, Upgrade 51 BP to Merge,Upgrade
-EVUL3.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-for x in EVUL3:
-    pyautogui.moveTo(x)
-    SleepDelayF()
-    pyautogui.click()
-    MergeBPS()
+# Evolution 1, Upgrade 1 = Fresh BP
+i = 1
+while i < LoopTimes:
+Main(E1U01.png,Upgrade)
+  i += 1
 
-EVUL4 = imagesearch_count("E3U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
-EVUL4.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-for x in EVUL4:
-    pyautogui.moveTo(x)
-    SleepDelayF()
-    pyautogui.click()
-    MergeBPS()
+# Evolution 1, Upgrade 51 BP to Merge,Upgrade
+i = 1
+while i < LoopTimes:
+Main(E1U51.png,Merge)
+  i += 1
 
-EVUL5 = imagesearch_count("E4U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
-EVUL5.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-for x in EVUL5:
-    pyautogui.moveTo(x)
-    SleepDelayF()
-    pyautogui.click()
-    MergeBPS()
+# Evolution 2, Upgrade 51 BP to Merge,Upgrade
+i = 1
+while i < LoopTimes:
+Main(E2U51.png,Merge)
+  i += 1
+
+# Evolution 3, Upgrade 51 BP to Merge,Upgrade
+i = 1
+while i < LoopTimes:
+Main(E3U51.png,Merge)
+  i += 1
+
+# Evolution 4, Upgrade 51 BP to Merge,Upgrade
+i = 1
+while i < LoopTimes:
+Main(E4U51.png,Merge)
+  i += 1
+
+#Old code, made a map of places to click, locations would change based on merges so unrealiable
+#EVUL = imagesearch_count("E1U01.png") # Evolution 1, Upgrade 1 = Fresh BP
+##EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
+##for x in EVUL:
+##    pyautogui.moveTo(x)
+##    SleepDelayF()
+##    pyautogui.click()
+##    UpgradeBPS()
+##
+##EVUL2 = imagesearch_count("E1U51.png") # Evolution 1, Upgrade 51 BP to Merge,Upgrade
+##EVUL2.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
+##for x in EVUL2:
+##    pyautogui.moveTo(x)
+##    SleepDelayF()
+##    pyautogui.click()
+##    MergeBPS()
+##
+##EVUL3 = imagesearch_count("E2U51-N.png") # Evolution 2, Upgrade 51 BP to Merge,Upgrade
+##EVUL3.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
+##for x in EVUL3:
+##    pyautogui.moveTo(x)
+##    SleepDelayF()
+##    pyautogui.click()
+##    MergeBPS()
+##
+##EVUL4 = imagesearch_count("E3U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
+##EVUL4.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
+##for x in EVUL4:
+##    pyautogui.moveTo(x)
+##    SleepDelayF()
+##    pyautogui.click()
+##    MergeBPS()
+##
+##EVUL5 = imagesearch_count("E4U51.png") # Evolution 4, Upgrade 51 BP to Merge,Upgrade
+##EVUL5.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
+##for x in EVUL5:
+##    pyautogui.moveTo(x)
+##    SleepDelayF()
+##    pyautogui.click()
+##    MergeBPS()
