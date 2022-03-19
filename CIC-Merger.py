@@ -14,7 +14,8 @@ import mss
 is_retina = False
 MouseSpeed = 0.2
 SleepDelay = 2
-LoopTimes = 9
+LoopTimesU = 9
+LoopTimesM = 9
 
 def SleepDelayF():
     print("Sleep:", SleepDelay, "Seconds")
@@ -123,7 +124,7 @@ def MergeBPS(image):
             SleepDelayF()
             UpgradeBPS()
             print("Upgrading New BluePrint")
-            return NBP
+            return "NBP"
         
 def Main(image, BPMCMD):
     pos = imagesearch(image)
@@ -145,9 +146,10 @@ def EVUL(image): #Caller for main
         pyautogui.moveTo(x)
         SleepDelayF()
         pyautogui.click()
-            if MergeBPS(image) == NBP:
+        NBPF = MergeBPS(image)
+        if NBPF == "NBP":
             break
-    EVUL(image)
+
 
 #Main Program begins Below this line!
 
@@ -157,15 +159,17 @@ def EVUL(image): #Caller for main
 
 #This code works. Images may need changing. ONLY WORKS FOR FREE BPS
 i = 1
-while i < LoopTimes:
+while i < LoopTimesU:
     Main("E1U01.png","Upgrade")
     i += 1
 
-# Evolution 1, Upgrade 51 BP to Merge,Upgrade
-EVUL("E1U51.png")
-
-
-
+i = 1
+while i < LoopTimesM:
+    EVUL("E1U51.png")
+    EVUL("E2U51.png")
+    EVUL("E3U51.png")
+    EVUL("E4U51.png")
+    i += 1
 
 #Code won't work as blueprints that don't merge mess keep getting clicked
 ##
