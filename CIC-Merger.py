@@ -14,8 +14,9 @@ import mss
 is_retina = False
 MouseSpeed = 0.2
 SleepDelay = 2
-LoopTimesU = 9
-LoopTimesM = 9
+LoopTimesU = 20
+LoopTimesM = 20
+EVUL2 = "1"
 
 def SleepDelayF():
     print("Sleep:", SleepDelay, "Seconds")
@@ -124,6 +125,7 @@ def MergeBPS(image):
             SleepDelayF()
             UpgradeBPS()
             print("Upgrading New BluePrint")
+            EVUL2 = image
             return "NBP"
         
 def Main(image, BPMCMD):
@@ -140,6 +142,7 @@ def Main(image, BPMCMD):
             MergeBPS()
 
 def EVUL(image): #Caller for main
+    EVUL2 = 1
     EVUL = imagesearch_count(image)
     EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
     for x in EVUL:
@@ -165,10 +168,17 @@ while i < LoopTimesU:
 
 i = 1
 while i < LoopTimesM:
-    EVUL("E1U51.png")
-    EVUL("E2U51.png")
-    EVUL("E3U51.png")
-    EVUL("E4U51.png")
+    NBPF = 1
+    if EVUL2 == "1":
+        EVUL("E1U51.png")
+    if EVUL2 == "1":
+        EVUL("E2U51.png")
+    if EVUL2 == "1":
+        EVUL("E3U51.png")
+    if EVUL2 == "1":
+        EVUL("E4U51.png")
+    else:
+        EVUL(EVUL2)
     i += 1
 
 #Code won't work as blueprints that don't merge mess keep getting clicked
