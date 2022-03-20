@@ -142,7 +142,6 @@ def Main(image, BPMCMD):
             MergeBPS()
 
 def EVUL(image): #Caller for main
-    EVUL2 = 1
     EVUL = imagesearch_count(image)
     EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
     for x in EVUL:
@@ -151,9 +150,12 @@ def EVUL(image): #Caller for main
         pyautogui.click()
         NBPF = MergeBPS(image)
         if NBPF == "NBP":
-            break
+            EVUL2(image)
 
-
+def EVUL2(image):
+    NBPF = 1
+    EVUL(image)
+    
 #Main Program begins Below this line!
 
 
@@ -169,16 +171,10 @@ while i < LoopTimesU:
 i = 1
 while i < LoopTimesM:
     NBPF = 1
-    if EVUL2 == "1":
-        EVUL("E1U51.png")
-    if EVUL2 == "1":
-        EVUL("E2U51.png")
-    if EVUL2 == "1":
-        EVUL("E3U51.png")
-    if EVUL2 == "1":
-        EVUL("E4U51.png")
-    else:
-        EVUL(EVUL2)
+    EVUL("E1U51.png")
+    EVUL("E2U51.png")
+    EVUL("E3U51.png")
+    EVUL("E4U51.png")
     i += 1
 
 #Code won't work as blueprints that don't merge mess keep getting clicked
