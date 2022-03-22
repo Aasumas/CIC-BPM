@@ -121,7 +121,7 @@ def MergeBPS(image):
         pos2 = imagesearch("MergeBluePrints.png")
         SleepDelayF()
         if pos2[0] != -1:
-            click_image("MergeBluePrints.png", pos2, "left", 0.1)       
+            click_image("MergeBluePrints.png", pos2, "left", MouseSpeed)       
             SleepDelayF()
             UpgradeBPS()
             print("Upgrading New BluePrint")
