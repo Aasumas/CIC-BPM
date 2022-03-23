@@ -14,7 +14,6 @@ import mss
 is_retina = False
 MouseSpeed = 0.2
 SleepDelay = 2
-LoopTimesU = 20
 LoopTimesM = 20
 EVUL2 = "1"
 
@@ -156,18 +155,31 @@ def EVUL2(image):
     NBPF = 1
     EVUL(image)
     
+def FreshBP(image):
+    uloop = imagesearch(image)
+    uloop_count = 0
+    while uloop[0] != -1:
+        Main(image,"Upgrade")
+        uloop = imagesearch(image)
+        uloop_count += 1
+        print("We are on loop", uloop_count)
+
 #Main Program begins Below this line!
 
-
+##print(imagesearch_count("10-1.png"))
+##print(imagesearch_count("10-2.png"))
+##print(imagesearch_count("10-3.png"))
 
 # Evolution 1, Upgrade 1 = Fresh BP
 
-#This code works. Images may need changing. ONLY WORKS FOR FREE BPS
-i = 1
-while i < LoopTimesU:
-    Main("E1U01.png","Upgrade")
-    i += 1
+#This code works. May need to add different images in future.
 
+FreshBP("10-1.png")
+FreshBP("10-2.png")
+FreshBP("10-3.png")
+FreshBP("10-4.png")
+
+#Works but repeats tried merges do to researching after a successful merge. Locations would've changed. So, it needs to research but I need to exclude previsouly tried locations
 i = 1
 while i < LoopTimesM:
     NBPF = 1
