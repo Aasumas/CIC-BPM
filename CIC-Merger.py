@@ -14,7 +14,7 @@ import mss
 is_retina = False
 MouseSpeed = 0.2
 SleepDelay = 2
-LoopTimesM = 20
+LoopTimesM = 5
 EVUL2 = "1"
 
 def SleepDelayF():
@@ -142,7 +142,7 @@ def Main(image, BPMCMD):
 
 def EVUL(image): #Caller for main
     EVUL = imagesearch_count(image)
-    EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
+    EVUL.sort(reverse=True) #Reverse the list, start from bottom right. To not messup the XY of other items.
     for x in EVUL:
         pyautogui.moveTo(x)
         SleepDelayF()
