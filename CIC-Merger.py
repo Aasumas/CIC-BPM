@@ -1,4 +1,4 @@
-#AutoBluePrintMerger for Crafting Idle Click by Aasum.
+#AutoBluePrintMerger V2 for Crafting Idle Click by Aasum.
 #A few places use absolute pixel values which must be changed.
 #Currently does a flat 51.
 import cv2
@@ -16,6 +16,8 @@ MouseSpeed = 0.2
 SleepDelay = 2
 LoopTimesM = 5
 EVUL2 = "1"
+Col = 25
+Row = 12
 
 def SleepDelayF():
     print("Sleep:", SleepDelay, "Seconds")
@@ -24,7 +26,7 @@ def SleepDelayF():
 def r(num, rand):
     return num + rand * random.random()
 
-def imagesearch_count(image, precision=0.9):
+def imagesearch_count(image, precision=.95):
     img_rgb = pyautogui.screenshot()
     filename = "Result-"  + image 
     if is_retina:
@@ -44,7 +46,25 @@ def imagesearch_count(image, precision=0.9):
         cv2.imwrite(filename , img_rgb) # Uncomment to write output image with boxes drawn around occurrences
     return count
 
-def imagesearch(image, precision=0.9):
+##def imagesearch(image, precision=.95):
+##    with mss.mss() as sct:
+##        im = sct.grab(sct.monitors[0])
+##        if is_retina:
+##            im.thumbnail((round(im.size[0] * 0.5), round(im.size[1] * 0.5)))
+##        # im.save('testarea.png') useful for debugging purposes, this will save the captured region as "testarea.png"
+##        img_rgb = np.array(im)
+##        #img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+##        template = cv2.imread(image, 0)
+##        if template is None:
+##            raise FileNotFoundError('Image file not found: {}'.format(image))
+##        template.shape[::-1]
+##
+##        res = cv2.matchTemplate(img_rgb, template, cv2.TM_CCOEFF_NORMED)
+##        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+##        if max_val < precision:
+##            return [-1, -1]
+##        return max_loc
+def imagesearch(image, precision=0.95):
     with mss.mss() as sct:
         im = sct.grab(sct.monitors[0])
         if is_retina:
@@ -73,60 +93,55 @@ def click_image(image, pos, action, Timestamp, offset=5):
 
 def UpgradeBPS():
     SleepDelayF()
-    pos1 = imagesearch("Upgrade.png")
-    if pos1[0] != -1:
-        print("Upgrade Found", pos1[0], pos1[1])
-        posy = pos1[1] - 100
-        pyautogui.moveTo(pos1[0], posy, MouseSpeed) #Activate the window
-        pyautogui.click()  # click the mouse
-        pyautogui.keyDown('ctrl')  # hold down the control key
-        click_image("Upgrade.png", pos1, "left", MouseSpeed) #change this to add more clicks if you don't want to do flat 51. Each Click is +50        
-        print("Clicking Upgrade ", pos1[0], pos1[1])
-        pyautogui.keyUp('ctrl') #release control key
-        SleepDelayF()
-        pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
-        SleepDelayF()
+    Upgrade = pixel_loop(701, 688, 255, 255, 255)
+    if Upgrade == True:
+      print("Upgrade is found!")
+      pyautogui.click(x=600, y=664)
+      with pyautogui.hold('ctrl'):
+        pyautogui.click(x=701, y=688)
+      SleepDelayF()
+      pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
+      SleepDelayF()
     else:
         print("Upgrade: Not Found")
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
         SleepDelayF()
 
+def pixel_loop(x, y, r, g, b):
+    pos = pyautogui.pixelMatchesColor(x, y, (r, g, b))
+    while pos == False:
+        print("Pixel not found, waiting")
+        time.sleep(SleepDelay)
+        pos = pyautogui.pixelMatchesColor(x, y, (r, g, b))
+    return True
+
 def MergeBPS(image):
-##    Lock = imagesearch("Lock.png")
-##    if Lock[0] != -1:
-##        print("Lock Found: Exiting")
-##        pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
-##    else:
-    pos1 = imagesearch("Merge.png")
-    if pos1[0] != -1:
-        print("Merge Button", pos1[0], pos1[1])
-        posy = pos1[1] - 100
-        pyautogui.moveTo(pos1[0], posy, MouseSpeed) #Activate the window
-        pyautogui.click()  # click the mouse
-        click_image("Merge.png", pos1, "left", MouseSpeed)
-        SleepDelayF()
-    NoBPS = imagesearch("NoBluePrints.png")
-    if NoBPS[0] != -1:
-        print("No BluePrints to Merge, Exiting")
+    Merge = pixel_loop(718, 729, 251, 251, 251)
+    if Merge == True:
+      print("Merge is found!")
+      pyautogui.click(x=718, y=729)  
+      SleepDelayF()
+      print("Selecting BluePrints")
+      NOBP = pyautogui.pixelMatchesColor(1074, 490, (255, 0, 0))
+      if NOBP == False:
+          BP = pixel_loop(1023, 486, 18, 139, 19)
+          if BP == True:
+            print("BP is found!")
+            pyautogui.click(x=1023, y=486)  
+            print("Merging BluePrints")
+            MergeBP = pixel_loop(1130, 807, 255, 255, 255)
+            if MergeBP == True:
+              print("MergeBP is found!")
+              pyautogui.click(x=1130, y=807)  
+              SleepDelayF()
+              UpgradeBPS()
+              print("Upgrading New BluePrint")
+              EVUL2 = image
+              return "NBP"
+      else:
+        EVUL2 = image
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
-        SleepDelayF()
-    else:
-        SleepDelayF()
-        print("Selecting BluePrints", pos1[0], pos1[1])
-        pyautogui.moveTo(1004, 491, MouseSpeed) # change this to the pixel area the blueprints are for blueprint B
-        pyautogui.click()  # click the mouse
-        print("Merging BluePrints")
-        pos2 = imagesearch("MergeBluePrints.png")
-        SleepDelayF()
-        if pos2[0] != -1:
-            click_image("MergeBluePrints.png", pos2, "left", MouseSpeed)       
-            SleepDelayF()
-            UpgradeBPS()
-            print("Upgrading New BluePrint")
-            EVUL2 = image
-            return "NBP"
-        
 def Main(image, BPMCMD):
     pos = imagesearch(image)
     if pos[0] != -1:
@@ -166,92 +181,16 @@ def FreshBP(image):
 
 #Main Program begins Below this line!
 
-##print(imagesearch_count("10-1.png"))
-##print(imagesearch_count("10-2.png"))
-##print(imagesearch_count("10-3.png"))
-
-# Evolution 1, Upgrade 1 = Fresh BP
-
-#This code works. May need to add different images in future.
-
 FreshBP("10-1.png")
-FreshBP("10-2.png")
-FreshBP("10-3.png")
-FreshBP("10-4.png")
-
-#Works but repeats tried merges do to researching after a successful merge. Locations would've changed. So, it needs to research but I need to exclude previsouly tried locations
 i = 1
 while i < LoopTimesM:
+    print("Loop", i , "Start")
     NBPF = 1
-    EVUL("E1U51.png")
-    EVUL("E2U51.png")
-    EVUL("E3U51.png")
-    EVUL("E4U51.png")
+    EVUL("1-51.png")
+    EVUL("2-51.png")
+    EVUL("3-51.png")
+    EVUL("4-51.png")
+    EVUL("5-51.png")
     i += 1
+    print("Loop", i, "End")
 
-#Code won't work as blueprints that don't merge mess keep getting clicked
-##
-### Evolution 2, Upgrade 51 BP to Merge,Upgrade
-##i = 1
-##while i < LoopTimes:
-##    Main(E2U51.png,Merge)
-##    i += 1
-##
-### Evolution 3, Upgrade 51 BP to Merge,Upgrade
-##i = 1
-##while i < LoopTimes:
-##    Main(E3U51.png,Merge)
-##    i += 1
-##
-### Evolution 4, Upgrade 51 BP to Merge,Upgrade
-##i = 1
-##while i < LoopTimes:
-##    Main(E4U51.png,Merge)
-##    i += 1
-
-
-
-
-    
-
-    
-#Need to reorder list from top left to bottom right Turn each into a function. On successful Merge Break For loop and rerun the function!
-#EVUL = imagesearch_count("E1U01.png") # Evolution 1, Upgrade 1 = Fresh BP
-##EVUL.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-##for x in EVUL:
-##    pyautogui.moveTo(x)
-##    SleepDelayF()
-##    pyautogui.click()
-##    UpgradeBPS()
-##
-##EVUL2 = imagesearch_count("E1U51.png") # Evolution 1, Upgrade 51 BP to Merge,Upgrade
-##EVUL2.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-##for x in EVUL2:
-##    pyautogui.moveTo(x)
-##    SleepDelayF()
-##    pyautogui.click()
-##    MergeBPS()
-##
-##EVUL3 = imagesearch_count("E2U51-N.png") # Evolution 2, Upgrade 51 BP to Merge,Upgrade
-##EVUL3.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-##for x in EVUL3:
-##    pyautogui.moveTo(x)
-##    SleepDelayF()
-##    pyautogui.click()
-##    MergeBPS()
-##
-##EVUL4 = imagesearch_count("E3U51.png") # Evolution 3, Upgrade 51 BP to Merge,Upgrade
-##EVUL4.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-##for x in EVUL4:
-##    pyautogui.moveTo(x)
-##    SleepDelayF()
-##    pyautogui.click()
-##    MergeBPS()
-##
-##EVUL5 = imagesearch_count("E4U51.png") # Evolution 4, Upgrade 51 BP to Merge,Upgrade
-##EVUL5.reverse() #Reverse the list, start from bottom right. To not messup the XY of other items.
-##for x in EVUL5:
-##    pyautogui.moveTo(x)
-##    SleepDelayF()
-##    pyautogui.click()
-##    MergeBPS()
