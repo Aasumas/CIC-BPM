@@ -46,6 +46,7 @@ def imagesearch_count(image, precision=.95):
         cv2.imwrite(filename , img_rgb) # Uncomment to write output image with boxes drawn around occurrences
     return count
 
+
 ##def imagesearch(image, precision=.95):
 ##    with mss.mss() as sct:
 ##        im = sct.grab(sct.monitors[0])
@@ -91,7 +92,7 @@ def click_image(image, pos, action, Timestamp, offset=5):
     pyautogui.moveTo(pos[0] + r(width / 2, offset), pos[1] + r(height / 2, offset), Timestamp)
     pyautogui.click(button=action)
 
-def UpgradeBPS():
+def UpgradeBPS(image, BPMCMD):
     SleepDelayF()
     Upgrade = pixel_loop(701, 688, 255, 255, 255)
     if Upgrade == True:
@@ -102,11 +103,12 @@ def UpgradeBPS():
       SleepDelayF()
       pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
       SleepDelayF()
+      Main(image, BPMCMD)
     else:
         print("Upgrade: Not Found")
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
         SleepDelayF()
-
+        Main(image, BPMCMD)
 def pixel_loop(x, y, r, g, b):
     pos = pyautogui.pixelMatchesColor(x, y, (r, g, b))
     while pos == False:
@@ -115,7 +117,7 @@ def pixel_loop(x, y, r, g, b):
         pos = pyautogui.pixelMatchesColor(x, y, (r, g, b))
     return True
 
-def MergeBPS(image):
+def MergeBPS(image, BPMCMD):
     Merge = pixel_loop(718, 729, 251, 251, 251)
     if Merge == True:
       print("Merge is found!")
@@ -124,36 +126,37 @@ def MergeBPS(image):
       print("Selecting BluePrints")
       NOBP = pyautogui.pixelMatchesColor(1074, 490, (255, 0, 0))
       if NOBP == False:
-          BP = pixel_loop(1023, 486, 18, 139, 19)
-          if BP == True:
-            print("BP is found!")
-            pyautogui.click(x=1023, y=486)  
-            print("Merging BluePrints")
-            MergeBP = pixel_loop(1130, 807, 255, 255, 255)
-            if MergeBP == True:
-              print("MergeBP is found!")
-              pyautogui.click(x=1130, y=807)  
-              SleepDelayF()
-              UpgradeBPS()
-              print("Upgrading New BluePrint")
-              EVUL2 = image
-              return "NBP"
+          #BP = pixel_loop(1023, 486, 18, 139, 19)
+          #if BP == True:
+        print("BP is found!")
+        pyautogui.click(x=1023, y=486)  
+        print("Merging BluePrints")
+        #MergeBP = pixel_loop(1130, 807, 255, 255, 255)
+        MergeBP = True
+        if MergeBP == True:
+          print("MergeBP is found!")
+          pyautogui.click(x=1130, y=807)  
+          SleepDelayF()
+          UpgradeBPS(image, BPMCMD)
+          print("Upgrading New BluePrint")
+          Main(image, BPMCMD)
+          return "NBP"
       else:
-        EVUL2 = image
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
         pyautogui.press('esc')     # press the ESC keyescape, back to main BluePrint Screen
-def Main(image, BPMCMD):
-    pos = imagesearch(image)
-    if pos[0] != -1:
-        print(image, "Found at:", pos[0], pos[1])
-        print("Moving Mouse to", pos[0], pos[1])
-        time.sleep(SleepDelay)
-        print("Left Click Mouse at", pos[0], pos[1])
-        click_image(image, pos, "left", MouseSpeed, offset=5)
-        if BPMCMD == "Upgrade":
-            UpgradeBPS()
-        elif BPMCMD == "Merge":
-            MergeBPS()
+        Main(image, BPMCMD)
+##def Main(image, BPMCMD):
+##    pos = imagesearch(image)
+##    if pos[0] != -1:
+##        print(image, "Found at:", pos[0], pos[1])
+##        print("Moving Mouse to", pos[0], pos[1])
+##        time.sleep(SleepDelay)
+##        print("Left Click Mouse at", pos[0], pos[1])
+##        click_image(image, pos, "left", MouseSpeed, offset=5)
+##        if BPMCMD == "Upgrade":
+##            UpgradeBPS()
+##        elif BPMCMD == "Merge":
+##            MergeBPS()
 
 def EVUL(image): #Caller for main
     EVUL = imagesearch_count(image)
@@ -170,27 +173,72 @@ def EVUL2(image):
     NBPF = 1
     EVUL(image)
     
+##def FreshBP(image,precision=0.8 ):
+##    uloop = imagesearch(image,precision)
+##    uloop_count = 0
+##    while uloop[0] != -1:
+##        Main(image,"Upgrade")
+##        uloop = imagesearch(image,precision)
+##        uloop_count += 1
+##        print("We are on loop", uloop_count)
+##def FreshBP(image, precision=.9): #Caller for main
+##    EVUL = imagesearch_count(image, precision=.9)
+##    EVUL.sort(reverse=True) #Reverse the list, start from bottom right. To not messup the XY of other items.
+##    for x in EVUL:
+##        pyautogui.click(x)
+##        NBPF = UpgradeBPS()
+##        if NBPF == "NBP":
+##            EVUL2(image)
 def FreshBP(image):
-    uloop = imagesearch(image)
-    uloop_count = 0
-    while uloop[0] != -1:
-        Main(image,"Upgrade")
-        uloop = imagesearch(image)
-        uloop_count += 1
-        print("We are on loop", uloop_count)
+    uloop = pyautogui.locateCenterOnScreen(image, confidence = 0.8)
+    if uloop is not None:
+        uloop = pyautogui.locateCenterOnScreen(image, confidence = 0.8)
+        pyautogui.moveTo(uloop[0], uloop[1], MouseSpeed)
+        pyautogui.leftClick()
+        UpgradeBPS(image)
 
+def BP2M(image):
+    uloop = pyautogui.locateCenterOnScreen(image, confidence = 0.8)
+    if uloop is not None:
+        uloop = pyautogui.locateCenterOnScreen(image, confidence = 0.8)
+        pyautogui.moveTo(uloop[0], uloop[1], MouseSpeed)
+        pyautogui.leftClick()
+        MergeBPS(image)
+
+def Main(image, BPMCMD):
+    uloop = pyautogui.locateCenterOnScreen(image, confidence = 0.8)
+    if uloop is not None:
+        uloop = pyautogui.locateCenterOnScreen(image, confidence = 0.8)
+        pyautogui.moveTo(uloop[0], uloop[1], MouseSpeed)
+        pyautogui.leftClick()
+        if BPMCMD == "Upgrade":
+            UpgradeBPS(image, "Upgrade")
+        elif BPMCMD == "Merge":
+            MergeBPS(image, "Merge")                
 #Main Program begins Below this line!
 
-FreshBP("10-1.png")
 i = 1
 while i < LoopTimesM:
-    print("Loop", i , "Start")
-    NBPF = 1
-    EVUL("1-51.png")
-    EVUL("2-51.png")
-    EVUL("3-51.png")
-    EVUL("4-51.png")
-    EVUL("5-51.png")
+    print("Loop",i,"/",LoopTimesM ,"Start")
+    Main("10-2.png", "Upgrade")
+    Main("1-51.png", "Merge")
+    Main("2-51.png", "Merge")
+    Main("3-51.png", "Merge")
+    Main("4-51.png", "Merge")
+    Main("5-51.png", "Merge")
     i += 1
-    print("Loop", i, "End")
+    print("Loop",i,"/",LoopTimesM,"End")
+
+
+##i = 1
+##while i < LoopTimesM:
+##    print("Loop", i , "Start")
+##    NBPF = 1
+##    EVUL("1-51.png")
+##    EVUL("2-51.png")
+##    EVUL("3-51.png")
+##    EVUL("4-51.png")
+##    EVUL("5-51.png")
+##    i += 1
+##    print("Loop", i, "End")
 
