@@ -12,13 +12,13 @@ import os
 import mss
 
 is_retina = False
-MouseSpeed = 0.2
-SleepDelay = 2
+MouseSpeed = 0
+SleepDelay = 1
 LoopTimesM = 5
 EVUL2 = "1"
 Col = 25
 Row = 12
-
+pyautogui.useImageNotFoundException(False)
 def SleepDelayF():
     print("Sleep:", SleepDelay, "Seconds")
     time.sleep(SleepDelay)
@@ -97,7 +97,7 @@ def UpgradeBPS(image, BPMCMD):
     Upgrade = pixel_loop(701, 688, 255, 255, 255)
     if Upgrade == True:
       print("Upgrade is found!")
-      pyautogui.click(x=600, y=664)
+      pyautogui.click(x=500, y=664)
       with pyautogui.hold('ctrl'):
         pyautogui.click(x=701, y=688)
       SleepDelayF()
@@ -215,11 +215,31 @@ def Main(image, BPMCMD):
             UpgradeBPS(image, "Upgrade")
         elif BPMCMD == "Merge":
             MergeBPS(image, "Merge")                
+def BPSwitcher():
+    DownArrow = pixel_loop(260, 152, 255, 255, 255)
+    if DownArrow == True:
+      print("DownArrow is found!")
+      pyautogui.click(x=260, y=152)
+      pyautogui.press('down')
+      pyautogui.press('enter')
+
+def BPSReset():
+    DownArrow = pixel_loop(260, 152, 255, 255, 255)
+    if DownArrow == True:
+      print("DownArrow is found!")
+      pyautogui.click(x=260, y=152)
+      pyautogui.press('up', presses=33)
+      pyautogui.press('enter') 
 #Main Program begins Below this line!
 
+#32
+           
+
+BPSwitcher()
+SleepDelayF()
 i = 1
-while i < LoopTimesM:
-    print("Loop",i,"/",LoopTimesM ,"Start")
+while i < 32:
+    print("Loop",i,"/ 32 Start")
     Main("10-2.png", "Upgrade")
     Main("1-51.png", "Merge")
     Main("2-51.png", "Merge")
@@ -227,7 +247,21 @@ while i < LoopTimesM:
     Main("4-51.png", "Merge")
     Main("5-51.png", "Merge")
     i += 1
-    print("Loop",i,"/",LoopTimesM,"End")
+    print("Loop",i,"/ 32 End")
+    BPSwitcher()
+    SleepDelayF()
+    BPSReset()
+##i = 1
+##while i < LoopTimesM:
+##    print("Loop",i,"/",LoopTimesM ,"Start")
+##    Main("10-2.png", "Upgrade")
+##    Main("1-51.png", "Merge")
+##    Main("2-51.png", "Merge")
+##    Main("3-51.png", "Merge")
+##    Main("4-51.png", "Merge")
+##    Main("5-51.png", "Merge")
+##    i += 1
+##    print("Loop",i,"/",LoopTimesM,"End")
 
 
 ##i = 1
